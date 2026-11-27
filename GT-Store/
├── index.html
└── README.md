@@ -1,27 +1,344 @@
-index.html
-
 <!doctype html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17102e">
+  <meta name="description" content="GT Store — pesan pulsa, token PLN, dan voucher digital melalui WhatsApp.">
   <title>GT Store</title>
+
   <style>
+    :root {
+      color-scheme: dark;
+      --background: #17181d;
+      --surface: #25262d;
+      --surface-light: #302d3b;
+      --purple: #7557d5;
+      --purple-hover: #8b70e8;
+      --text: #f6f6f8;
+      --muted: #b7b6c1;
+      --border: #41414d;
+      --notice: #332e45;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
+      background: var(--background);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      padding: 34px 18px 28px;
+      text-align: center;
+      background: linear-gradient(135deg, #17102e, #30255c);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 2.8rem);
+    }
+
+    header p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    main {
+      width: min(900px, 100%);
+      margin: 0 auto;
+      padding: 20px 16px 36px;
+    }
+
+    .notice {
+      margin-bottom: 24px;
+      padding: 14px 16px;
+      border: 1px solid #504471;
+      border-radius: 12px;
+      background: var(--notice);
+      color: var(--text);
+    }
+
+    h2 {
+      margin: 24px 0 14px;
+      font-size: 1.35rem;
+    }
+
+    .grid {
       display: grid;
-      place-items: center;
-      background: #17181d;
-      color: #f6f6f8;
-      font-family: system-ui, sans-serif;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .card h3 {
+      margin: 0 0 14px;
+      font-size: 1.1rem;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 6px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      min-height: 46px;
+      border-radius: 9px;
+      font: inherit;
+      font-size: 1rem;
+    }
+
+    input,
+    select {
+      padding: 10px 12px;
+      border: 1px solid #555561;
+      background: #191a20;
+      color: var(--text);
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 11px 14px;
+      border: 0;
+      background: var(--purple);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--purple-hover);
+    }
+
+    input:focus,
+    select:focus,
+    button:focus-visible {
+      outline: 3px solid #b5a4ff;
+      outline-offset: 2px;
+    }
+
+    .help {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .security {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-light);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    footer {
+      padding: 24px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
-  <main>
+  <header>
     <h1>GT Store</h1>
-    <p>Pulsa, PLN, voucher, dan blockchain.</p>
+    <p>Pulsa · PLN Token · Voucher Digital · Informasi Blockchain</p>
+  </header>
+
+  <main>
+    <div class="notice">
+      Pesanan dikirim melalui WhatsApp untuk dikonfirmasi secara manual.
+      Pastikan nomor atau ID tujuan sudah benar sebelum mengirim.
+    </div>
+
+    <h2>Pilih Produk</h2>
+
+    <div class="grid">
+      <section class="card">
+        <h3>Pulsa</h3>
+
+        <label for="pulsaNomor">Nomor ponsel tujuan</label>
+        <input
+          id="pulsaNomor"
+          type="tel"
+          inputmode="tel"
+          autocomplete="tel"
+          placeholder="Contoh: 08xxxxxxxxxx"
+        >
+
+        <label for="pulsaNominal">Pilih nominal</label>
+        <select id="pulsaNominal">
+          <option value="Pulsa Rp10.000">Rp10.000</option>
+          <option value="Pulsa Rp25.000">Rp25.000</option>
+          <option value="Pulsa Rp50.000">Rp50.000</option>
+          <option value="Pulsa Rp100.000">Rp100.000</option>
+        </select>
+
+        <button type="button" onclick="pesanProduk('Pulsa', 'pulsaNomor', 'pulsaNominal')">
+          Pesan lewat WhatsApp
+        </button>
+      </section>
+
+      <section class="card">
+        <h3>PLN Token</h3>
+
+        <label for="plnNomor">Nomor meter atau ID pelanggan</label>
+        <input
+          id="plnNomor"
+          type="text"
+          inputmode="numeric"
+          placeholder="Masukkan nomor atau ID PLN"
+        >
+
+        <label for="plnNominal">Pilih nominal token</label>
+        <select id="plnNominal">
+          <option value="Token PLN Rp20.000">Rp20.000</option>
+          <option value="Token PLN Rp50.000">Rp50.000</option>
+          <option value="Token PLN Rp100.000">Rp100.000</option>
+          <option value="Token PLN Rp200.000">Rp200.000</option>
+        </select>
+
+        <button type="button" onclick="pesanProduk('PLN Token', 'plnNomor', 'plnNominal')">
+          Pesan lewat WhatsApp
+        </button>
+      </section>
+
+      <section class="card">
+        <h3>Voucher Google Play</h3>
+
+        <label for="playNominal">Pilih nominal voucher</label>
+        <select id="playNominal">
+          <option value="Voucher Google Play Rp50.000">Rp50.000</option>
+          <option value="Voucher Google Play Rp100.000">Rp100.000</option>
+          <option value="Voucher Google Play Rp150.000">Rp150.000</option>
+          <option value="Voucher Google Play Rp300.000">Rp300.000</option>
+        </select>
+
+        <button type="button" onclick="pesanProduk('Voucher Google Play', null, 'playNominal')">
+          Pesan lewat WhatsApp
+        </button>
+      </section>
+
+      <section class="card">
+        <h3>Informasi Blockchain</h3>
+
+        <label for="blockchainProduk">Nama layanan atau produk</label>
+        <input
+          id="blockchainProduk"
+          type="text"
+          placeholder="Contoh: pertanyaan tentang layanan"
+        >
+
+        <label for="blockchainKeterangan">Pertanyaan singkat</label>
+        <input
+          id="blockchainKeterangan"
+          type="text"
+          placeholder="Jangan masukkan informasi rahasia"
+        >
+
+        <button type="button" onclick="tanyaBlockchain()">
+          Tanya lewat WhatsApp
+        </button>
+
+        <p class="help">Jangan pernah mengirim kata sandi, seed phrase, atau private key.</p>
+      </section>
+    </div>
+
+    <div class="security">
+      <strong>Catatan:</strong> nominal di atas adalah pilihan nominal produk, bukan jaminan harga akhir.
+      Konfirmasi harga dan ketersediaan dengan GT Store sebelum membayar.
+    </div>
   </main>
+
+  <footer>
+    GT Store · Pemesanan dan konfirmasi melalui WhatsApp
+  </footer>
+
+  <script>
+    // Nomor WhatsApp GT Store, gunakan format internasional tanpa tanda +.
+    const nomorWhatsApp = "6283894960906";
+
+    function bukaWhatsApp(pesan) {
+      const url = "https://wa.me/" + nomorWhatsApp +
+        "?text=" + encodeURIComponent(pesan);
+
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    function pesanProduk(produk, tujuanId, nominalId) {
+      const nominal = document.getElementById(nominalId).value;
+      let tujuan = "";
+
+      if (tujuanId) {
+        tujuan = document.getElementById(tujuanId).value.trim();
+
+        if (!tujuan) {
+          alert("Silakan isi nomor atau ID tujuan.");
+          document.getElementById(tujuanId).focus();
+          return;
+        }
+      }
+
+      const barisPesan = [
+        "Halo GT Store, saya ingin memesan.",
+        "Produk: " + produk,
+        "Nominal: " + nominal
+      ];
+
+      if (tujuan) {
+        barisPesan.push("Nomor atau ID tujuan: " + tujuan);
+      }
+
+      barisPesan.push("Mohon konfirmasi harga dan ketersediaan.");
+
+      bukaWhatsApp(barisPesan.join("\n"));
+    }
+
+    function tanyaBlockchain() {
+      const produk = document.getElementById("blockchainProduk").value.trim();
+      const keterangan = document.getElementById("blockchainKeterangan").value.trim();
+
+      if (!produk) {
+        alert("Silakan isi nama layanan atau produk yang ingin ditanyakan.");
+        document.getElementById("blockchainProduk").focus();
+        return;
+      }
+
+      const pesan = [
+        "Halo GT Store, saya ingin bertanya tentang informasi blockchain.",
+        "Layanan atau produk: " + produk,
+        keterangan ? "Pertanyaan: " + keterangan : "",
+        "Saya tidak menyertakan informasi rahasia."
+      ].filter(Boolean).join("\n");
+
+      bukaWhatsApp(pesan);
+    }
+  </script>
 </body>
 </html>
