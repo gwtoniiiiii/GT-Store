@@ -1,4 +1,6 @@
-<!doctype html>
+GT-Store/
+├── index.html
+└── README.md<!doctype html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
